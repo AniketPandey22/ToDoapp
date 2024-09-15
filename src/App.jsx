@@ -2,10 +2,20 @@ import { useState } from 'react'
 import { TodoProvider } from './contexts'
 
 
-
 function App() {
   const [todos, setTodos] = useState([])
 
+  const addTodo = (title) => {
+    setTodos((prev) => [{ id: Date.now(), ...title }, ...prev])
+  }
+
+  const updateTodo = (id, title) => {
+    setTodos((prev) => prev.map((prevTodo) => (prevTodo.id === id ? title : prevTodo)))
+  }
+
+  const deleteTodo = (id) => {
+    setTodos((prev) => prev.filter((prevTodo) => prevTodo.id !== id))
+  }
   return (
     <TodoProvider value={{ todos, addTodo, deleteTodo, toggleTodo, updateTodo }}>
       <div className="bg-[#172842] min-h-screen py-8">
